@@ -325,22 +325,24 @@ router.post('/view-ticket-details/response/:id', function(req, res, next) {
 	var userId = req.params.id;
 	var ticket_id = userId;
 	var message = req.body.response_details;
-	var category;
+	var category = req.params.category;
 
 	CreateTicketModule.findById(userId, function(err, data){
-		if(err) console.log(err);
-		console.log(data);
-	});
-	
-	var messageDetail = new responseModule({
-		userId: userId,
-		TicketCategory: category,
-		response: message
-	});
+		if(err) {
+			console.log("Error: ", err);
+		} else {
+			console.log("Data: ", data);
+			var messageDetail = new responseModule({
+			userId: userId,
+			TicketCategory: category,
+			response: message
+			});
 
-	messageDetail.save((err, doc) => {
-		if(err) throw err;
-		res.render('admin/response',{ title: 'Student Grievance Support System', msg:'response sent', loginUser:'', id:ticket_id});
+			messageDetail.save((err, doc) => {
+				if(err) throw err;
+				res.render('admin/response',{ title: 'Student Grievance Support System', msg:'response sent', loginUser:'', id:ticket_id});
+			});
+		}
 	});
 });
 
