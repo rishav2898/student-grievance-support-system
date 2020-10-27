@@ -325,7 +325,6 @@ router.post('/view-ticket-details/response/:id', function(req, res, next) {
 	var userId = req.params.id;
 	var ticket_id = userId;
 	var message = req.body.response_details;
-	var category = req.params.category;
 
 	CreateTicketModule.findById(userId, function(err, data){
 		if(err) {
@@ -334,7 +333,7 @@ router.post('/view-ticket-details/response/:id', function(req, res, next) {
 			console.log("Data: ", data);
 			var messageDetail = new responseModule({
 			userId: userId,
-			TicketCategory: category,
+			TicketCategory: data.TicketCategory,
 			response: message
 			});
 
